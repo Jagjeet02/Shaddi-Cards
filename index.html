@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Invitation Card Builder</title>
+    <title>Elegant Wedding Invitation Builder</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&family=Poppins&family=Dancing+Script&family=Cormorant+Garamond&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #d4af37;
@@ -16,6 +17,7 @@
             --font-heading: 'Great Vibes', cursive;
             --font-body: 'Playfair Display', serif;
             --font-ui: 'Poppins', sans-serif;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -34,18 +36,18 @@
 
         .container {
             display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 20px;
-            max-width: 1400px;
+            grid-template-columns: 1fr 400px;
+            gap: 25px;
+            max-width: 1600px;
             margin: 0 auto;
             height: calc(100vh - 40px);
         }
 
         .preview-section {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 25px;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -57,12 +59,20 @@
             margin-bottom: 20px;
             color: var(--secondary-color);
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .preview-title i {
+            color: var(--primary-color);
         }
 
         .card-preview {
             flex: 1;
             background: var(--accent-color);
-            border-radius: 8px;
+            border-radius: 12px;
             position: relative;
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -71,10 +81,12 @@
 
         .controls-section {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 25px;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         .section-title {
@@ -83,10 +95,20 @@
             color: var(--secondary-color);
             border-bottom: 1px solid #eee;
             padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary-color);
         }
 
         .control-group {
             margin-bottom: 20px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
         }
 
         .control-label {
@@ -94,19 +116,30 @@
             margin-bottom: 8px;
             font-weight: 500;
             color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .control-input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ddd;
-            border-radius: 6px;
+            border-radius: 8px;
             font-family: var(--font-ui);
+            transition: all 0.3s;
+        }
+
+        .control-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
         }
 
         .color-picker {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .color-option {
@@ -115,19 +148,30 @@
             border-radius: 50%;
             cursor: pointer;
             border: 2px solid transparent;
+            transition: transform 0.2s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
         }
 
         .color-option.active {
             border-color: var(--primary-color);
+            transform: scale(1.1);
         }
 
         .font-option {
-            padding: 8px 12px;
+            padding: 10px 12px;
             border: 1px solid #ddd;
-            border-radius: 6px;
+            border-radius: 8px;
             margin-bottom: 8px;
             cursor: pointer;
             text-align: center;
+            transition: all 0.3s;
+        }
+
+        .font-option:hover {
+            border-color: var(--primary-color);
         }
 
         .font-option.active {
@@ -139,8 +183,8 @@
             background: var(--primary-color);
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 6px;
+            padding: 14px 20px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
             transition: all 0.3s;
@@ -148,11 +192,13 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            font-family: var(--font-ui);
         }
 
         .button:hover {
             background: #c19d2e;
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .button.secondary {
@@ -163,6 +209,14 @@
             background: #5a6268;
         }
 
+        .button.success {
+            background: #28a745;
+        }
+
+        .button.success:hover {
+            background: #218838;
+        }
+
         .swiper {
             width: 100%;
             height: 150px;
@@ -171,7 +225,7 @@
 
         .swiper-slide {
             background: white;
-            border-radius: 8px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -193,7 +247,7 @@
             width: 80px;
             height: 100px;
             background: var(--accent-color);
-            border-radius: 4px;
+            border-radius: 6px;
             position: relative;
             overflow: hidden;
         }
@@ -212,6 +266,7 @@
             font-size: 0.7rem;
             text-align: center;
             margin-bottom: 5px;
+            font-weight: 600;
         }
 
         .template-divider {
@@ -224,15 +279,17 @@
         .draggable-text {
             position: absolute;
             cursor: move;
-            padding: 5px 10px;
-            border-radius: 4px;
+            padding: 8px 12px;
+            border-radius: 6px;
             user-select: none;
             max-width: 80%;
             text-align: center;
+            transition: all 0.2s;
         }
 
         .draggable-text.active {
             outline: 2px dashed var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.7);
         }
 
         .action-buttons {
@@ -329,6 +386,82 @@
             color: #bdc3c7;
         }
 
+        .card-design-3 {
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            height: 100%;
+        }
+
+        .card-design-3 .card-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #f1c40f;
+            margin-bottom: 10px;
+        }
+
+        .card-design-3 .card-subtitle {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .card-design-3 .names {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            margin: 15px 0;
+        }
+
+        .card-design-3 .date {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            margin-top: 20px;
+            color: #e0e0e0;
+        }
+
+        .card-design-4 {
+            background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            height: 100%;
+        }
+
+        .card-design-4 .card-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: #f1c40f;
+            margin-bottom: 10px;
+        }
+
+        .card-design-4 .card-subtitle {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .card-design-4 .names {
+            font-family: var(--font-body);
+            font-size: 1.5rem;
+            margin: 15px 0;
+        }
+
+        .card-design-4 .date {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            margin-top: 20px;
+            color: #e0e0e0;
+        }
+
         .floral-decoration {
             position: absolute;
             width: 80px;
@@ -347,8 +480,171 @@
             transform: rotate(180deg);
         }
 
+        /* Tabs */
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Background upload */
+        .background-upload {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .background-upload:hover {
+            border-color: var(--primary-color);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .background-upload i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        /* Text styling options */
+        .text-styling-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .style-option {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .style-option:hover {
+            border-color: var(--primary-color);
+        }
+
+        .style-option.active {
+            border-color: var(--primary-color);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        /* Social sharing */
+        .social-sharing {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+        }
+
+        .facebook {
+            background: #3b5998;
+        }
+
+        .twitter {
+            background: #1da1f2;
+        }
+
+        .instagram {
+            background: #e1306c;
+        }
+
+        .whatsapp {
+            background: #25d366;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
         /* Responsive adjustments */
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
             .container {
                 grid-template-columns: 1fr;
                 height: auto;
@@ -358,12 +654,41 @@
                 height: 120px;
             }
         }
+
+        @media (max-width: 768px) {
+            .text-styling-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .controls-section, .swiper, .action-buttons {
+                display: none;
+            }
+            
+            .preview-section {
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            .card-preview {
+                box-shadow: none;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <section class="preview-section">
-            <h2 class="preview-title">Card Preview</h2>
+            <h2 class="preview-title">
+                <i class="fas fa-ring"></i>
+                Wedding Invitation Preview
+            </h2>
             <div class="card-preview">
                 <div class="card-content">
                     <!-- Dynamic card content will be inserted here -->
@@ -413,100 +738,355 @@
         </section>
         
         <section class="controls-section">
-            <h2 class="section-title">Text Customization</h2>
-            
-            <div class="control-group">
-                <label class="control-label">Select Text Element</label>
-                <select class="control-input" id="textElementSelect">
-                    <option value="title">Wedding Title</option>
-                    <option value="subtitle">Subtitle</option>
-                    <option value="brideName">Bride's Name</option>
-                    <option value="groomName">Groom's Name</option>
-                    <option value="date">Wedding Date</option>
-                    <option value="message">Special Message</option>
-                </select>
+            <div class="tabs">
+                <div class="tab active" data-tab="text">Text</div>
+                <div class="tab" data-tab="design">Design</div>
+                <div class="tab" data-tab="details">Details</div>
+                <div class="tab" data-tab="share">Share</div>
             </div>
             
-            <div class="control-group">
-                <label class="control-label">Font Family</label>
-                <div>
-                    <div class="font-option active" data-font="Great Vibes">Great Vibes</div>
-                    <div class="font-option" data-font="Playfair Display">Playfair Display</div>
-                    <div class="font-option" data-font="Poppins">Poppins</div>
-                    <div class="font-option" data-font="Arial">Arial</div>
+            <div class="tab-content active" id="text-tab">
+                <h2 class="section-title">
+                    <i class="fas fa-text-height"></i>
+                    Text Customization
+                </h2>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-font"></i>
+                        Select Text Element
+                    </label>
+                    <select class="control-input" id="textElementSelect">
+                        <option value="title">Wedding Title</option>
+                        <option value="subtitle">Subtitle</option>
+                        <option value="brideName">Bride's Name</option>
+                        <option value="groomName">Groom's Name</option>
+                        <option value="date">Wedding Date</option>
+                        <option value="venue">Venue</option>
+                        <option value="time">Time</option>
+                        <option value="rsvp">RSVP Details</option>
+                        <option value="message">Special Message</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-palette"></i>
+                        Font Family
+                    </label>
+                    <div>
+                        <div class="font-option active" data-font="Great Vibes">Great Vibes</div>
+                        <div class="font-option" data-font="Playfair Display">Playfair Display</div>
+                        <div class="font-option" data-font="Dancing Script">Dancing Script</div>
+                        <div class="font-option" data-font="Cormorant Garamond">Cormorant</div>
+                        <div class="font-option" data-font="Poppins">Poppins</div>
+                        <div class="font-option" data-font="Arial">Arial</div>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-ruler-vertical"></i>
+                        Font Size
+                    </label>
+                    <input type="range" class="control-input" id="fontSize" min="12" max="72" value="24">
+                    <div style="text-align: center; margin-top: 5px;">
+                        <span id="fontSizeValue">24px</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-fill-drip"></i>
+                        Text Color
+                    </label>
+                    <div class="color-picker">
+                        <div class="color-option active" style="background: #d4af37;" data-color="#d4af37"></div>
+                        <div class="color-option" style="background: #8b7355;" data-color="#8b7355"></div>
+                        <div class="color-option" style="background: #333;" data-color="#333"></div>
+                        <div class="color-option" style="background: #fff; border: 1px solid #ddd;" data-color="#fff"></div>
+                        <div class="color-option" style="background: #8e44ad;" data-color="#8e44ad"></div>
+                        <div class="color-option" style="background: #16a085;" data-color="#16a085"></div>
+                        <div class="color-option" style="background: #e74c3c;" data-color="#e74c3c"></div>
+                        <div class="color-option" style="background: #2c3e50;" data-color="#2c3e50"></div>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-align-left"></i>
+                        Text Alignment
+                    </label>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="button secondary" data-align="left">
+                            <i class="fas fa-align-left"></i>
+                        </button>
+                        <button class="button" data-align="center">
+                            <i class="fas fa-align-center"></i>
+                        </button>
+                        <button class="button secondary" data-align="right">
+                            <i class="fas fa-align-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-brush"></i>
+                        Text Styling
+                    </label>
+                    <div class="text-styling-options">
+                        <div class="style-option" data-style="bold">
+                            <i class="fas fa-bold"></i> Bold
+                        </div>
+                        <div class="style-option" data-style="italic">
+                            <i class="fas fa-italic"></i> Italic
+                        </div>
+                        <div class="style-option" data-style="underline">
+                            <i class="fas fa-underline"></i> Underline
+                        </div>
+                        <div class="style-option" data-style="shadow">
+                            <i class="fas fa-text-shadow"></i> Shadow
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <div class="control-group">
-                <label class="control-label">Font Size</label>
-                <input type="range" class="control-input" id="fontSize" min="12" max="72" value="24">
-                <div style="text-align: center; margin-top: 5px;">
-                    <span id="fontSizeValue">24px</span>
+            <div class="tab-content" id="design-tab">
+                <h2 class="section-title">
+                    <i class="fas fa-palette"></i>
+                    Design Options
+                </h2>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-image"></i>
+                        Background Image
+                    </label>
+                    <div class="background-upload" id="backgroundUpload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload background image</p>
+                        <input type="file" id="backgroundInput" accept="image/*" style="display: none;">
+                    </div>
+                    <button class="button secondary" id="removeBackground">
+                        <i class="fas fa-times"></i>
+                        Remove Background
+                    </button>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-fill"></i>
+                        Background Color
+                    </label>
+                    <div class="color-picker">
+                        <div class="color-option active" style="background: #f8f3e9;" data-bgcolor="#f8f3e9"></div>
+                        <div class="color-option" style="background: #ffffff;" data-bgcolor="#ffffff"></div>
+                        <div class="color-option" style="background: #2c3e50;" data-bgcolor="#2c3e50"></div>
+                        <div class="color-option" style="background: #8e44ad;" data-bgcolor="#8e44ad"></div>
+                        <div class="color-option" style="background: #16a085;" data-bgcolor="#16a085"></div>
+                        <div class="color-option" style="background: #e8dfc8;" data-bgcolor="#e8dfc8"></div>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-border-style"></i>
+                        Text Background
+                    </label>
+                    <div class="color-picker">
+                        <div class="color-option active" style="background: transparent; border: 2px dashed #ddd;" data-textbg="transparent"></div>
+                        <div class="color-option" style="background: rgba(255,255,255,0.7);" data-textbg="rgba(255,255,255,0.7)"></div>
+                        <div class="color-option" style="background: rgba(0,0,0,0.7);" data-textbg="rgba(0,0,0,0.7)"></div>
+                        <div class="color-option" style="background: rgba(212,175,55,0.2);" data-textbg="rgba(212,175,55,0.2)"></div>
+                    </div>
                 </div>
             </div>
             
-            <div class="control-group">
-                <label class="control-label">Text Color</label>
-                <div class="color-picker">
-                    <div class="color-option active" style="background: #d4af37;" data-color="#d4af37"></div>
-                    <div class="color-option" style="background: #8b7355;" data-color="#8b7355"></div>
-                    <div class="color-option" style="background: #333;" data-color="#333"></div>
-                    <div class="color-option" style="background: #fff; border: 1px solid #ddd;" data-color="#fff"></div>
-                    <div class="color-option" style="background: #8e44ad;" data-color="#8e44ad"></div>
-                    <div class="color-option" style="background: #16a085;" data-color="#16a085"></div>
+            <div class="tab-content" id="details-tab">
+                <h2 class="section-title">
+                    <i class="fas fa-info-circle"></i>
+                    Wedding Details
+                </h2>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-female"></i>
+                        Bride's Name
+                    </label>
+                    <input type="text" class="control-input" id="brideName" value="Sujata Pradhan">
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-male"></i>
+                        Groom's Name
+                    </label>
+                    <input type="text" class="control-input" id="groomName" value="Atul Kashyap">
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-calendar-alt"></i>
+                        Wedding Date
+                    </label>
+                    <input type="text" class="control-input" id="weddingDate" value="Saturday, 15th December 2023">
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-clock"></i>
+                        Wedding Time
+                    </label>
+                    <input type="text" class="control-input" id="weddingTime" value="6:00 PM onwards">
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Venue
+                    </label>
+                    <textarea class="control-input" id="weddingVenue" rows="2">Grand Palace Banquet Hall, 123 Celebration Street, Cityville</textarea>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-phone-alt"></i>
+                        RSVP Details
+                    </label>
+                    <textarea class="control-input" id="rsvpDetails" rows="2">Please RSVP by 1st December 2023. Contact: 9876543210</textarea>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-heart"></i>
+                        Special Message
+                    </label>
+                    <textarea class="control-input" id="specialMessage" rows="3">We invite you and your family's gracious presence and blessing on our special day</textarea>
                 </div>
             </div>
             
-            <div class="control-group">
-                <label class="control-label">Text Alignment</label>
-                <div style="display: flex; gap: 10px;">
-                    <button class="button secondary" data-align="left">Left</button>
-                    <button class="button" data-align="center">Center</button>
-                    <button class="button secondary" data-align="right">Right</button>
+            <div class="tab-content" id="share-tab">
+                <h2 class="section-title">
+                    <i class="fas fa-share-alt"></i>
+                    Save & Share
+                </h2>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-save"></i>
+                        Save Your Design
+                    </label>
+                    <p style="margin-bottom: 15px; color: #666;">Save your invitation to edit later or create multiple versions.</p>
+                    <button class="button" id="saveDesignBtn">
+                        <i class="fas fa-save"></i>
+                        Save Design
+                    </button>
+                    <button class="button secondary" id="loadDesignBtn" style="margin-top: 10px;">
+                        <i class="fas fa-folder-open"></i>
+                        Load Saved Design
+                    </button>
                 </div>
-            </div>
-            
-            <h2 class="section-title" style="margin-top: 30px;">Card Details</h2>
-            
-            <div class="control-group">
-                <label class="control-label">Bride's Name</label>
-                <input type="text" class="control-input" id="brideName" value="Sujata Pradhan">
-            </div>
-            
-            <div class="control-group">
-                <label class="control-label">Groom's Name</label>
-                <input type="text" class="control-input" id="groomName" value="Atul Kashyap">
-            </div>
-            
-            <div class="control-group">
-                <label class="control-label">Wedding Date</label>
-                <input type="text" class="control-input" id="weddingDate" value="Saturday, 15th December 2023">
-            </div>
-            
-            <div class="control-group">
-                <label class="control-label">Special Message</label>
-                <textarea class="control-input" id="specialMessage" rows="3">We invite you and your family's gracious presence and blessing</textarea>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-download"></i>
+                        Download & Print
+                    </label>
+                    <p style="margin-bottom: 15px; color: #666;">Download your invitation for printing or digital sharing.</p>
+                    <button class="button success" id="downloadBtn">
+                        <i class="fas fa-download"></i>
+                        Download as Image
+                    </button>
+                    <button class="button" id="printBtn" style="margin-top: 10px;">
+                        <i class="fas fa-print"></i>
+                        Print Invitation
+                    </button>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-share"></i>
+                        Share on Social Media
+                    </label>
+                    <p style="margin-bottom: 15px; color: #666;">Share your beautiful invitation with friends and family.</p>
+                    <div class="social-sharing">
+                        <div class="social-icon facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <div class="social-icon twitter">
+                            <i class="fab fa-twitter"></i>
+                        </div>
+                        <div class="social-icon instagram">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="social-icon whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="action-buttons">
-                <button class="button" id="saveBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z"/>
-                    </svg>
-                    Save Card
+                <button class="button" id="resetBtn">
+                    <i class="fas fa-redo"></i>
+                    Reset Design
                 </button>
-                <button class="button secondary" id="downloadBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                    </svg>
-                    Download
+                <button class="button success" id="previewBtn">
+                    <i class="fas fa-eye"></i>
+                    Preview
                 </button>
             </div>
         </section>
     </div>
 
+    <!-- Save Design Modal -->
+    <div class="modal" id="saveModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Save Your Design</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="control-group">
+                    <label class="control-label">Design Name</label>
+                    <input type="text" class="control-input" id="designName" placeholder="My Wedding Invitation">
+                </div>
+                <p style="margin-top: 15px; color: #666;">Your design will be saved to your browser's local storage.</p>
+            </div>
+            <div class="action-buttons">
+                <button class="button secondary" id="cancelSave">Cancel</button>
+                <button class="button" id="confirmSave">Save Design</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Design Modal -->
+    <div class="modal" id="loadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Load Saved Design</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="control-group">
+                    <label class="control-label">Select Design</label>
+                    <select class="control-input" id="savedDesigns">
+                        <option value="">-- Select a saved design --</option>
+                    </select>
+                </div>
+                <p style="margin-top: 15px; color: #666;">Load a previously saved design to continue editing.</p>
+            </div>
+            <div class="action-buttons">
+                <button class="button secondary" id="cancelLoad">Cancel</button>
+                <button class="button" id="confirmLoad">Load Design</button>
+                <button class="button secondary" id="deleteDesign">Delete</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
         // Initialize Swiper
         const swiper = new Swiper('.swiper', {
@@ -522,6 +1102,7 @@
         let currentCardTemplate = 1;
         let activeTextElement = null;
         const textElements = {};
+        let savedDesigns = JSON.parse(localStorage.getItem('weddingInvitationDesigns')) || {};
 
         // Initialize the card
         function initializeCard() {
@@ -530,6 +1111,9 @@
             
             // Set up event listeners for controls
             setupEventListeners();
+            
+            // Load saved designs into the dropdown
+            updateSavedDesignsDropdown();
         }
 
         // Update card design based on selected template
@@ -556,7 +1140,10 @@
                         <div style="font-size: 1.2rem;">&</div>
                         <div class="names" data-element="groomName">${document.getElementById('groomName').value}</div>
                         <div class="date" data-element="date">${document.getElementById('weddingDate').value}</div>
+                        <div class="date" data-element="time">${document.getElementById('weddingTime').value}</div>
+                        <div class="date" data-element="venue">${document.getElementById('weddingVenue').value}</div>
                         <div style="margin-top: 20px; font-style: italic;" data-element="message">${document.getElementById('specialMessage').value}</div>
+                        <div style="margin-top: 15px; font-size: 0.9rem;" data-element="rsvp">${document.getElementById('rsvpDetails').value}</div>
                     </div>
                 `;
             } else if (currentCardTemplate === 2) {
@@ -568,7 +1155,40 @@
                         <div style="font-size: 1.2rem; margin: 5px 0;">&</div>
                         <div class="names" data-element="groomName">${document.getElementById('groomName').value}</div>
                         <div class="date" data-element="date">${document.getElementById('weddingDate').value}</div>
+                        <div class="date" data-element="time">${document.getElementById('weddingTime').value}</div>
+                        <div class="date" data-element="venue">${document.getElementById('weddingVenue').value}</div>
                         <div style="margin-top: 20px; font-style: italic;" data-element="message">${document.getElementById('specialMessage').value}</div>
+                        <div style="margin-top: 15px; font-size: 0.9rem;" data-element="rsvp">${document.getElementById('rsvpDetails').value}</div>
+                    </div>
+                `;
+            } else if (currentCardTemplate === 3) {
+                cardContent.innerHTML = `
+                    <div class="card-design-3">
+                        <div class="card-title" data-element="title">Wedding Celebration</div>
+                        <div class="card-subtitle" data-element="subtitle">Join us for our special day</div>
+                        <div class="names" data-element="brideName">${document.getElementById('brideName').value}</div>
+                        <div style="font-size: 1.2rem; margin: 5px 0;">&</div>
+                        <div class="names" data-element="groomName">${document.getElementById('groomName').value}</div>
+                        <div class="date" data-element="date">${document.getElementById('weddingDate').value}</div>
+                        <div class="date" data-element="time">${document.getElementById('weddingTime').value}</div>
+                        <div class="date" data-element="venue">${document.getElementById('weddingVenue').value}</div>
+                        <div style="margin-top: 20px; font-style: italic;" data-element="message">${document.getElementById('specialMessage').value}</div>
+                        <div style="margin-top: 15px; font-size: 0.9rem;" data-element="rsvp">${document.getElementById('rsvpDetails').value}</div>
+                    </div>
+                `;
+            } else if (currentCardTemplate === 4) {
+                cardContent.innerHTML = `
+                    <div class="card-design-4">
+                        <div class="card-title" data-element="title">Wedding Invitation</div>
+                        <div class="card-subtitle" data-element="subtitle">Together with our families</div>
+                        <div class="names" data-element="brideName">${document.getElementById('brideName').value}</div>
+                        <div style="font-size: 1.2rem; margin: 5px 0;">&</div>
+                        <div class="names" data-element="groomName">${document.getElementById('groomName').value}</div>
+                        <div class="date" data-element="date">${document.getElementById('weddingDate').value}</div>
+                        <div class="date" data-element="time">${document.getElementById('weddingTime').value}</div>
+                        <div class="date" data-element="venue">${document.getElementById('weddingVenue').value}</div>
+                        <div style="margin-top: 20px; font-style: italic;" data-element="message">${document.getElementById('specialMessage').value}</div>
+                        <div style="margin-top: 15px; font-size: 0.9rem;" data-element="rsvp">${document.getElementById('rsvpDetails').value}</div>
                     </div>
                 `;
             }
@@ -709,6 +1329,24 @@
                         btn.classList.remove('secondary');
                     }
                 });
+                
+                // Update text styling
+                const fontWeight = getComputedStyle(activeTextElement).fontWeight;
+                const fontStyle = getComputedStyle(activeTextElement).fontStyle;
+                const textDecoration = getComputedStyle(activeTextElement).textDecoration;
+                const textShadow = getComputedStyle(activeTextElement).textShadow;
+                
+                document.querySelectorAll('.style-option').forEach(option => {
+                    option.classList.remove('active');
+                    const style = option.getAttribute('data-style');
+                    
+                    if ((style === 'bold' && fontWeight === 'bold') ||
+                        (style === 'italic' && fontStyle === 'italic') ||
+                        (style === 'underline' && textDecoration.includes('underline')) ||
+                        (style === 'shadow' && textShadow !== 'none')) {
+                        option.classList.add('active');
+                    }
+                });
             }
         }
 
@@ -737,6 +1375,20 @@
                     this.classList.add('active');
                     currentCardTemplate = parseInt(this.getAttribute('data-template'));
                     updateCardDesign();
+                });
+            });
+            
+            // Tab switching
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const tabId = this.getAttribute('data-tab');
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
                 });
             });
             
@@ -774,11 +1426,35 @@
             // Color selection
             document.querySelectorAll('.color-option').forEach(option => {
                 option.addEventListener('click', function() {
-                    document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                    if (this.hasAttribute('data-color')) {
+                        document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        if (activeTextElement) {
+                            activeTextElement.style.color = this.getAttribute('data-color');
+                        }
+                    }
+                });
+            });
+            
+            // Background color selection
+            document.querySelectorAll('[data-bgcolor]').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('[data-bgcolor]').forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    document.querySelector('.card-preview').style.backgroundColor = this.getAttribute('data-bgcolor');
+                });
+            });
+            
+            // Text background selection
+            document.querySelectorAll('[data-textbg]').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('[data-textbg]').forEach(opt => opt.classList.remove('active'));
                     this.classList.add('active');
                     
                     if (activeTextElement) {
-                        activeTextElement.style.color = this.getAttribute('data-color');
+                        activeTextElement.style.backgroundColor = this.getAttribute('data-textbg');
                     }
                 });
             });
@@ -793,6 +1469,55 @@
                         activeTextElement.style.textAlign = this.getAttribute('data-align');
                     }
                 });
+            });
+            
+            // Text styling
+            document.querySelectorAll('.style-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const style = this.getAttribute('data-style');
+                    
+                    if (activeTextElement) {
+                        switch(style) {
+                            case 'bold':
+                                activeTextElement.style.fontWeight = this.classList.contains('active') ? 'bold' : 'normal';
+                                break;
+                            case 'italic':
+                                activeTextElement.style.fontStyle = this.classList.contains('active') ? 'italic' : 'normal';
+                                break;
+                            case 'underline':
+                                activeTextElement.style.textDecoration = this.classList.contains('active') ? 'underline' : 'none';
+                                break;
+                            case 'shadow':
+                                activeTextElement.style.textShadow = this.classList.contains('active') ? '2px 2px 4px rgba(0,0,0,0.3)' : 'none';
+                                break;
+                        }
+                    }
+                });
+            });
+            
+            // Background image upload
+            document.getElementById('backgroundUpload').addEventListener('click', function() {
+                document.getElementById('backgroundInput').click();
+            });
+            
+            document.getElementById('backgroundInput').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        document.querySelector('.card-preview').style.backgroundImage = `url(${event.target.result})`;
+                        document.querySelector('.card-preview').style.backgroundSize = 'cover';
+                        document.querySelector('.card-preview').style.backgroundPosition = 'center';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Remove background
+            document.getElementById('removeBackground').addEventListener('click', function() {
+                document.querySelector('.card-preview').style.backgroundImage = 'none';
+                document.querySelector('.card-preview').style.backgroundColor = '#f8f3e9';
             });
             
             // Form inputs
@@ -817,6 +1542,27 @@
                 }
             });
             
+            document.getElementById('weddingTime').addEventListener('input', function() {
+                const element = document.querySelector('[data-element="time"]');
+                if (element) {
+                    element.textContent = this.value;
+                }
+            });
+            
+            document.getElementById('weddingVenue').addEventListener('input', function() {
+                const element = document.querySelector('[data-element="venue"]');
+                if (element) {
+                    element.textContent = this.value;
+                }
+            });
+            
+            document.getElementById('rsvpDetails').addEventListener('input', function() {
+                const element = document.querySelector('[data-element="rsvp"]');
+                if (element) {
+                    element.textContent = this.value;
+                }
+            });
+            
             document.getElementById('specialMessage').addEventListener('input', function() {
                 const element = document.querySelector('[data-element="message"]');
                 if (element) {
@@ -824,16 +1570,151 @@
                 }
             });
             
-            // Action buttons
-            document.getElementById('saveBtn').addEventListener('click', function() {
-                alert('Card saved successfully!');
-                // In a real application, you would save the card data to a database or local storage
+            // Save design
+            document.getElementById('saveDesignBtn').addEventListener('click', function() {
+                document.getElementById('saveModal').style.display = 'flex';
             });
             
-            document.getElementById('downloadBtn').addEventListener('click', function() {
-                alert('Download functionality would be implemented here!');
-                // In a real application, you would use a library like html2canvas to capture the card as an image
+            document.getElementById('cancelSave').addEventListener('click', function() {
+                document.getElementById('saveModal').style.display = 'none';
             });
+            
+            document.querySelector('#saveModal .close-modal').addEventListener('click', function() {
+                document.getElementById('saveModal').style.display = 'none';
+            });
+            
+            document.getElementById('confirmSave').addEventListener('click', function() {
+                const designName = document.getElementById('designName').value || 'My Wedding Invitation';
+                saveDesign(designName);
+                document.getElementById('saveModal').style.display = 'none';
+                alert('Design saved successfully!');
+            });
+            
+            // Load design
+            document.getElementById('loadDesignBtn').addEventListener('click', function() {
+                document.getElementById('loadModal').style.display = 'flex';
+            });
+            
+            document.getElementById('cancelLoad').addEventListener('click', function() {
+                document.getElementById('loadModal').style.display = 'none';
+            });
+            
+            document.querySelector('#loadModal .close-modal').addEventListener('click', function() {
+                document.getElementById('loadModal').style.display = 'none';
+            });
+            
+            document.getElementById('confirmLoad').addEventListener('click', function() {
+                const designId = document.getElementById('savedDesigns').value;
+                if (designId) {
+                    loadDesign(designId);
+                    document.getElementById('loadModal').style.display = 'none';
+                }
+            });
+            
+            document.getElementById('deleteDesign').addEventListener('click', function() {
+                const designId = document.getElementById('savedDesigns').value;
+                if (designId && confirm('Are you sure you want to delete this design?')) {
+                    delete savedDesigns[designId];
+                    localStorage.setItem('weddingInvitationDesigns', JSON.stringify(savedDesigns));
+                    updateSavedDesignsDropdown();
+                    document.getElementById('loadModal').style.display = 'none';
+                }
+            });
+            
+            // Download as image
+            document.getElementById('downloadBtn').addEventListener('click', function() {
+                html2canvas(document.querySelector('.card-preview')).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'wedding-invitation.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                });
+            });
+            
+            // Print
+            document.getElementById('printBtn').addEventListener('click', function() {
+                window.print();
+            });
+            
+            // Reset design
+            document.getElementById('resetBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to reset the design? All changes will be lost.')) {
+                    location.reload();
+                }
+            });
+            
+            // Preview
+            document.getElementById('previewBtn').addEventListener('click', function() {
+                alert('Preview mode would open in a new window in a real application.');
+                // In a real app, you would open a new window with just the card preview
+            });
+            
+            // Social sharing (simulated)
+            document.querySelectorAll('.social-icon').forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const platform = this.querySelector('i').className.split(' ')[1].split('-')[1];
+                    alert(`Sharing to ${platform} would be implemented in a real application.`);
+                });
+            });
+        }
+
+        // Save design to localStorage
+        function saveDesign(name) {
+            const design = {
+                name: name,
+                template: currentCardTemplate,
+                brideName: document.getElementById('brideName').value,
+                groomName: document.getElementById('groomName').value,
+                date: document.getElementById('weddingDate').value,
+                time: document.getElementById('weddingTime').value,
+                venue: document.getElementById('weddingVenue').value,
+                rsvp: document.getElementById('rsvpDetails').value,
+                message: document.getElementById('specialMessage').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            const designId = 'design_' + Date.now();
+            savedDesigns[designId] = design;
+            localStorage.setItem('weddingInvitationDesigns', JSON.stringify(savedDesigns));
+            updateSavedDesignsDropdown();
+        }
+
+        // Load design from localStorage
+        function loadDesign(id) {
+            const design = savedDesigns[id];
+            if (design) {
+                document.getElementById('brideName').value = design.brideName;
+                document.getElementById('groomName').value = design.groomName;
+                document.getElementById('weddingDate').value = design.date;
+                document.getElementById('weddingTime').value = design.time;
+                document.getElementById('weddingVenue').value = design.venue;
+                document.getElementById('rsvpDetails').value = design.rsvp;
+                document.getElementById('specialMessage').value = design.message;
+                
+                currentCardTemplate = design.template;
+                document.querySelectorAll('.swiper-slide').forEach(slide => {
+                    slide.classList.remove('active');
+                    if (parseInt(slide.getAttribute('data-template')) === currentCardTemplate) {
+                        slide.classList.add('active');
+                    }
+                });
+                
+                updateCardDesign();
+            }
+        }
+
+        // Update the saved designs dropdown
+        function updateSavedDesignsDropdown() {
+            const dropdown = document.getElementById('savedDesigns');
+            dropdown.innerHTML = '<option value="">-- Select a saved design --</option>';
+            
+            for (const id in savedDesigns) {
+                const design = savedDesigns[id];
+                const option = document.createElement('option');
+                option.value = id;
+                option.textContent = `${design.name} (${new Date(design.timestamp).toLocaleDateString()})`;
+                dropdown.appendChild(option);
+            }
         }
 
         // Initialize the application
