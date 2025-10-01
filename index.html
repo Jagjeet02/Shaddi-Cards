@@ -3,10 +3,841 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./styles.css">
+    <title>Wedding Invitation Card Builder</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&family=Poppins&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #d4af37;
+            --secondary-color: #8b7355;
+            --accent-color: #f8f3e9;
+            --text-color: #333;
+            --light-text: #fff;
+            --font-heading: 'Great Vibes', cursive;
+            --font-body: 'Playfair Display', serif;
+            --font-ui: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-ui);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            height: calc(100vh - 40px);
+        }
+
+        .preview-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .card-preview {
+            flex: 1;
+            background: var(--accent-color);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f8f3e9"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23d4af37" stroke-width="0.5" opacity="0.2"/></svg>');
+        }
+
+        .controls-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .control-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: var(--font-ui);
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 10px;
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .color-option.active {
+            border-color: var(--primary-color);
+        }
+
+        .font-option {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .font-option.active {
+            border-color: var(--primary-color);
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        .button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .button:hover {
+            background: #c19d2e;
+            transform: translateY(-2px);
+        }
+
+        .button.secondary {
+            background: #6c757d;
+        }
+
+        .button.secondary:hover {
+            background: #5a6268;
+        }
+
+        .swiper {
+            width: 100%;
+            height: 150px;
+            margin-top: 20px;
+        }
+
+        .swiper-slide {
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .swiper-slide:hover {
+            transform: translateY(-5px);
+        }
+
+        .swiper-slide.active {
+            border-color: var(--primary-color);
+        }
+
+        .card-template {
+            width: 80px;
+            height: 100px;
+            background: var(--accent-color);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .template-preview {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .template-title {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .template-divider {
+            width: 20px;
+            height: 1px;
+            background: var(--primary-color);
+            margin: 3px 0;
+        }
+
+        .draggable-text {
+            position: absolute;
+            cursor: move;
+            padding: 5px 10px;
+            border-radius: 4px;
+            user-select: none;
+            max-width: 80%;
+            text-align: center;
+        }
+
+        .draggable-text.active {
+            outline: 2px dashed var(--primary-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .action-buttons .button {
+            flex: 1;
+        }
+
+        .card-content {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Card design styles */
+        .card-design-1 {
+            background: linear-gradient(135deg, #f8f3e9 0%, #e8dfc8 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            height: 100%;
+        }
+
+        .card-design-1 .card-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .card-design-1 .card-subtitle {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .card-design-1 .names {
+            font-family: var(--font-body);
+            font-size: 1.5rem;
+            margin: 15px 0;
+            color: var(--text-color);
+        }
+
+        .card-design-1 .date {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            margin-top: 20px;
+            color: var(--secondary-color);
+        }
+
+        .card-design-2 {
+            background: linear-gradient(45deg, #2c3e50 0%, #4a6572 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            height: 100%;
+        }
+
+        .card-design-2 .card-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: #f1c40f;
+            margin-bottom: 10px;
+        }
+
+        .card-design-2 .card-subtitle {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .card-design-2 .names {
+            font-family: var(--font-body);
+            font-size: 1.5rem;
+            margin: 15px 0;
+        }
+
+        .card-design-2 .date {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            margin-top: 20px;
+            color: #bdc3c7;
+        }
+
+        .floral-decoration {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            opacity: 0.1;
+        }
+
+        .floral-top-left {
+            top: 10px;
+            left: 10px;
+        }
+
+        .floral-bottom-right {
+            bottom: 10px;
+            right: 10px;
+            transform: rotate(180deg);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .swiper {
+                height: 120px;
+            }
+        }
+    </style>
 </head>
 <body>
-    hi
+    <div class="container">
+        <section class="preview-section">
+            <h2 class="preview-title">Card Preview</h2>
+            <div class="card-preview">
+                <div class="card-content">
+                    <!-- Dynamic card content will be inserted here -->
+                </div>
+            </div>
+            
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide active" data-template="1">
+                        <div class="card-template">
+                            <div class="template-preview">
+                                <div class="template-title">Classic</div>
+                                <div class="template-divider"></div>
+                                <div style="font-size: 0.6rem;">Elegant Design</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide" data-template="2">
+                        <div class="card-template">
+                            <div class="template-preview" style="background: #2c3e50; color: white;">
+                                <div class="template-title">Modern</div>
+                                <div class="template-divider" style="background: #f1c40f;"></div>
+                                <div style="font-size: 0.6rem;">Contemporary</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide" data-template="3">
+                        <div class="card-template">
+                            <div class="template-preview" style="background: #8e44ad; color: white;">
+                                <div class="template-title">Royal</div>
+                                <div class="template-divider" style="background: #f1c40f;"></div>
+                                <div style="font-size: 0.6rem;">Luxurious</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide" data-template="4">
+                        <div class="card-template">
+                            <div class="template-preview" style="background: #16a085; color: white;">
+                                <div class="template-title">Garden</div>
+                                <div class="template-divider" style="background: #f1c40f;"></div>
+                                <div style="font-size: 0.6rem;">Natural</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="controls-section">
+            <h2 class="section-title">Text Customization</h2>
+            
+            <div class="control-group">
+                <label class="control-label">Select Text Element</label>
+                <select class="control-input" id="textElementSelect">
+                    <option value="title">Wedding Title</option>
+                    <option value="subtitle">Subtitle</option>
+                    <option value="brideName">Bride's Name</option>
+                    <option value="groomName">Groom's Name</option>
+                    <option value="date">Wedding Date</option>
+                    <option value="message">Special Message</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label">Font Family</label>
+                <div>
+                    <div class="font-option active" data-font="Great Vibes">Great Vibes</div>
+                    <div class="font-option" data-font="Playfair Display">Playfair Display</div>
+                    <div class="font-option" data-font="Poppins">Poppins</div>
+                    <div class="font-option" data-font="Arial">Arial</div>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label">Font Size</label>
+                <input type="range" class="control-input" id="fontSize" min="12" max="72" value="24">
+                <div style="text-align: center; margin-top: 5px;">
+                    <span id="fontSizeValue">24px</span>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label">Text Color</label>
+                <div class="color-picker">
+                    <div class="color-option active" style="background: #d4af37;" data-color="#d4af37"></div>
+                    <div class="color-option" style="background: #8b7355;" data-color="#8b7355"></div>
+                    <div class="color-option" style="background: #333;" data-color="#333"></div>
+                    <div class="color-option" style="background: #fff; border: 1px solid #ddd;" data-color="#fff"></div>
+                    <div class="color-option" style="background: #8e44ad;" data-color="#8e44ad"></div>
+                    <div class="color-option" style="background: #16a085;" data-color="#16a085"></div>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label">Text Alignment</label>
+                <div style="display: flex; gap: 10px;">
+                    <button class="button secondary" data-align="left">Left</button>
+                    <button class="button" data-align="center">Center</button>
+                    <button class="button secondary" data-align="right">Right</button>
+                </div>
+            </div>
+            
+            <h2 class="section-title" style="margin-top: 30px;">Card Details</h2>
+            
+            <div class="control-group">
+                <label class="control-label">Bride's Name</label>
+                <input type="text" class="control-input" id="brideName" value="Sujata Pradhan">
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label">Groom's Name</label>
+                <input type="text" class="control-input" id="groomName" value="Atul Kashyap">
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label">Wedding Date</label>
+                <input type="text" class="control-input" id="weddingDate" value="Saturday, 15th December 2023">
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label">Special Message</label>
+                <textarea class="control-input" id="specialMessage" rows="3">We invite you and your family's gracious presence and blessing</textarea>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="button" id="saveBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z"/>
+                    </svg>
+                    Save Card
+                </button>
+                <button class="button secondary" id="downloadBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg>
+                    Download
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Initialize Swiper
+        const swiper = new Swiper('.swiper', {
+            slidesPerView: 3,
+            spaceBetween: 10,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
+        // Card data and state
+        let currentCardTemplate = 1;
+        let activeTextElement = null;
+        const textElements = {};
+
+        // Initialize the card
+        function initializeCard() {
+            updateCardDesign();
+            createDraggableTextElements();
+            
+            // Set up event listeners for controls
+            setupEventListeners();
+        }
+
+        // Update card design based on selected template
+        function updateCardDesign() {
+            const cardContent = document.querySelector('.card-content');
+            cardContent.innerHTML = '';
+            
+            // Add floral decorations
+            const floralSvg = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50,10 C60,20 70,25 70,35 C70,45 60,50 50,50 C40,50 30,45 30,35 C30,25 40,20 50,10 Z" fill="currentColor"/>
+                <path d="M50,90 C60,80 70,75 70,65 C70,55 60,50 50,50 C40,50 30,55 30,65 C30,75 40,80 50,90 Z" fill="currentColor"/>
+                <path d="M10,50 C20,60 25,70 35,70 C45,70 50,60 50,50 C50,40 45,30 35,30 C25,30 20,40 10,50 Z" fill="currentColor"/>
+                <path d="M90,50 C80,40 75,30 65,30 C55,30 50,40 50,50 C50,60 55,70 65,70 C75,70 80,60 90,50 Z" fill="currentColor"/>
+            </svg>`;
+            
+            if (currentCardTemplate === 1) {
+                cardContent.innerHTML = `
+                    <div class="card-design-1">
+                        <div class="floral-decoration floral-top-left">${floralSvg}</div>
+                        <div class="floral-decoration floral-bottom-right">${floralSvg}</div>
+                        <div class="card-title" data-element="title">Wedding Invitation</div>
+                        <div class="card-subtitle" data-element="subtitle">Join us in celebration</div>
+                        <div class="names" data-element="brideName">${document.getElementById('brideName').value}</div>
+                        <div style="font-size: 1.2rem;">&</div>
+                        <div class="names" data-element="groomName">${document.getElementById('groomName').value}</div>
+                        <div class="date" data-element="date">${document.getElementById('weddingDate').value}</div>
+                        <div style="margin-top: 20px; font-style: italic;" data-element="message">${document.getElementById('specialMessage').value}</div>
+                    </div>
+                `;
+            } else if (currentCardTemplate === 2) {
+                cardContent.innerHTML = `
+                    <div class="card-design-2">
+                        <div class="card-title" data-element="title">Wedding Celebration</div>
+                        <div class="card-subtitle" data-element="subtitle">Request the honor of your presence</div>
+                        <div class="names" data-element="brideName">${document.getElementById('brideName').value}</div>
+                        <div style="font-size: 1.2rem; margin: 5px 0;">&</div>
+                        <div class="names" data-element="groomName">${document.getElementById('groomName').value}</div>
+                        <div class="date" data-element="date">${document.getElementById('weddingDate').value}</div>
+                        <div style="margin-top: 20px; font-style: italic;" data-element="message">${document.getElementById('specialMessage').value}</div>
+                    </div>
+                `;
+            }
+            
+            // Recreate draggable text elements after updating card design
+            createDraggableTextElements();
+        }
+
+        // Create draggable text elements
+        function createDraggableTextElements() {
+            const textElements = document.querySelectorAll('[data-element]');
+            
+            textElements.forEach(element => {
+                const elementType = element.getAttribute('data-element');
+                
+                // Make element draggable
+                element.classList.add('draggable-text');
+                
+                // Store initial position if not already set
+                if (!textElements[elementType]) {
+                    const rect = element.getBoundingClientRect();
+                    const parentRect = element.parentElement.getBoundingClientRect();
+                    
+                    textElements[elementType] = {
+                        x: rect.left - parentRect.left,
+                        y: rect.top - parentRect.top
+                    };
+                    
+                    element.style.left = textElements[elementType].x + 'px';
+                    element.style.top = textElements[elementType].y + 'px';
+                    element.style.position = 'absolute';
+                } else {
+                    element.style.left = textElements[elementType].x + 'px';
+                    element.style.top = textElements[elementType].y + 'px';
+                    element.style.position = 'absolute';
+                }
+                
+                // Add drag functionality
+                element.addEventListener('mousedown', startDrag);
+                element.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    setActiveTextElement(element);
+                });
+            });
+            
+            // Click outside to deselect
+            document.querySelector('.card-preview').addEventListener('click', function(e) {
+                if (!e.target.classList.contains('draggable-text')) {
+                    setActiveTextElement(null);
+                }
+            });
+        }
+
+        // Drag functionality
+        let isDragging = false;
+        let dragElement = null;
+        let offsetX, offsetY;
+
+        function startDrag(e) {
+            isDragging = true;
+            dragElement = e.target;
+            setActiveTextElement(dragElement);
+            
+            const rect = dragElement.getBoundingClientRect();
+            const parentRect = dragElement.parentElement.getBoundingClientRect();
+            
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+            
+            document.addEventListener('mousemove', onDrag);
+            document.addEventListener('mouseup', stopDrag);
+        }
+
+        function onDrag(e) {
+            if (!isDragging) return;
+            
+            const parentRect = dragElement.parentElement.getBoundingClientRect();
+            const x = e.clientX - parentRect.left - offsetX;
+            const y = e.clientY - parentRect.top - offsetY;
+            
+            // Constrain to parent boundaries
+            const maxX = parentRect.width - dragElement.offsetWidth;
+            const maxY = parentRect.height - dragElement.offsetHeight;
+            
+            dragElement.style.left = Math.max(0, Math.min(x, maxX)) + 'px';
+            dragElement.style.top = Math.max(0, Math.min(y, maxY)) + 'px';
+        }
+
+        function stopDrag() {
+            isDragging = false;
+            document.removeEventListener('mousemove', onDrag);
+            document.removeEventListener('mouseup', stopDrag);
+        }
+
+        // Set active text element for editing
+        function setActiveTextElement(element) {
+            if (activeTextElement) {
+                activeTextElement.classList.remove('active');
+            }
+            
+            activeTextElement = element;
+            
+            if (activeTextElement) {
+                activeTextElement.classList.add('active');
+                
+                // Update controls to match active element
+                const elementType = activeTextElement.getAttribute('data-element');
+                document.getElementById('textElementSelect').value = elementType;
+                
+                // Update font family
+                const fontFamily = getComputedStyle(activeTextElement).fontFamily;
+                document.querySelectorAll('.font-option').forEach(option => {
+                    option.classList.remove('active');
+                    if (fontFamily.includes(option.getAttribute('data-font'))) {
+                        option.classList.add('active');
+                    }
+                });
+                
+                // Update font size
+                const fontSize = parseInt(getComputedStyle(activeTextElement).fontSize);
+                document.getElementById('fontSize').value = fontSize;
+                document.getElementById('fontSizeValue').textContent = fontSize + 'px';
+                
+                // Update text color
+                const textColor = getComputedStyle(activeTextElement).color;
+                document.querySelectorAll('.color-option').forEach(option => {
+                    option.classList.remove('active');
+                    if (option.getAttribute('data-color') === rgbToHex(textColor)) {
+                        option.classList.add('active');
+                    }
+                });
+                
+                // Update text alignment
+                const textAlign = getComputedStyle(activeTextElement).textAlign;
+                document.querySelectorAll('[data-align]').forEach(btn => {
+                    btn.classList.add('secondary');
+                    if (btn.getAttribute('data-align') === textAlign) {
+                        btn.classList.remove('secondary');
+                    }
+                });
+            }
+        }
+
+        // Convert RGB color to Hex
+        function rgbToHex(rgb) {
+            // If the color is already in hex format, return it
+            if (rgb.startsWith('#')) return rgb;
+            
+            // Extract RGB values
+            const result = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/.exec(rgb);
+            if (!result) return '#000000';
+            
+            const r = parseInt(result[1]);
+            const g = parseInt(result[2]);
+            const b = parseInt(result[3]);
+            
+            return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
+
+        // Set up event listeners for controls
+        function setupEventListeners() {
+            // Template selection
+            document.querySelectorAll('.swiper-slide').forEach(slide => {
+                slide.addEventListener('click', function() {
+                    document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCardTemplate = parseInt(this.getAttribute('data-template'));
+                    updateCardDesign();
+                });
+            });
+            
+            // Text element selection
+            document.getElementById('textElementSelect').addEventListener('change', function() {
+                const elementType = this.value;
+                const element = document.querySelector(`[data-element="${elementType}"]`);
+                if (element) {
+                    setActiveTextElement(element);
+                }
+            });
+            
+            // Font family selection
+            document.querySelectorAll('.font-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.font-option').forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    if (activeTextElement) {
+                        activeTextElement.style.fontFamily = this.getAttribute('data-font');
+                    }
+                });
+            });
+            
+            // Font size slider
+            document.getElementById('fontSize').addEventListener('input', function() {
+                const size = this.value;
+                document.getElementById('fontSizeValue').textContent = size + 'px';
+                
+                if (activeTextElement) {
+                    activeTextElement.style.fontSize = size + 'px';
+                }
+            });
+            
+            // Color selection
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    if (activeTextElement) {
+                        activeTextElement.style.color = this.getAttribute('data-color');
+                    }
+                });
+            });
+            
+            // Text alignment
+            document.querySelectorAll('[data-align]').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('[data-align]').forEach(btn => btn.classList.add('secondary'));
+                    this.classList.remove('secondary');
+                    
+                    if (activeTextElement) {
+                        activeTextElement.style.textAlign = this.getAttribute('data-align');
+                    }
+                });
+            });
+            
+            // Form inputs
+            document.getElementById('brideName').addEventListener('input', function() {
+                const element = document.querySelector('[data-element="brideName"]');
+                if (element) {
+                    element.textContent = this.value;
+                }
+            });
+            
+            document.getElementById('groomName').addEventListener('input', function() {
+                const element = document.querySelector('[data-element="groomName"]');
+                if (element) {
+                    element.textContent = this.value;
+                }
+            });
+            
+            document.getElementById('weddingDate').addEventListener('input', function() {
+                const element = document.querySelector('[data-element="date"]');
+                if (element) {
+                    element.textContent = this.value;
+                }
+            });
+            
+            document.getElementById('specialMessage').addEventListener('input', function() {
+                const element = document.querySelector('[data-element="message"]');
+                if (element) {
+                    element.textContent = this.value;
+                }
+            });
+            
+            // Action buttons
+            document.getElementById('saveBtn').addEventListener('click', function() {
+                alert('Card saved successfully!');
+                // In a real application, you would save the card data to a database or local storage
+            });
+            
+            document.getElementById('downloadBtn').addEventListener('click', function() {
+                alert('Download functionality would be implemented here!');
+                // In a real application, you would use a library like html2canvas to capture the card as an image
+            });
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', initializeCard);
+    </script>
 </body>
 </html>
